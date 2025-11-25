@@ -1,0 +1,8 @@
+# Optional dependencies for additional LLM providers
+# Install with: pip install -r requirements_optional.txt
+
+# For OpenAI support
+openai>=1.0.0
+
+# Note: Anthropic is already included in the main requirements
+# Note: Ollama doesn't require any Python dependencies (uses HTTP API) 

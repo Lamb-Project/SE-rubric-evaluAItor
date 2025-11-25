@@ -1,0 +1,19 @@
+# Requirements for Automated Evaluation System
+# Python 3.11+
+
+# Core dependencies
+anthropic>=0.52.0          # Anthropic API client for Claude
+requests>=2.31.0           # HTTP requests library
+python-dotenv>=1.0.0       # Environment variables management
+
+# Optional dependencies for additional LLM providers
+# Install with: pip install -r requirements_optional.txt
+# openai>=1.0.0             # For OpenAI GPT support (see requirements_optional.txt)
+
+# Development and utility libraries
+colorama>=0.4.6            # Colored terminal output
+tqdm>=4.66.0               # Progress bars during evaluation
+
+# Type checking and development (optional but recommended)
+typing-extensions>=4.9.0    # Enhanced type hints
+python-dateutil>=2.8.0      # Advanced date/time handling 
