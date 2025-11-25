@@ -116,6 +116,8 @@ El sistema ejecuta 4 fases secuenciales:
 - Cálculo de nota ponderada (0-10)
 - Documento final con rúbrica completa
 
+!(docs/Evaluaitor.png)[]
+
 ## 📁 Estructura de Archivos Generados
 
 ```
@@ -206,6 +208,74 @@ python evaluador.py proyecto_final.md ./evaluacion_proyecto --prompts ./mis_prom
 ```bash
 python evaluador.py proyecto_final.md ./evaluacion_proyecto --debug
 ```
+
+## 🌊 Versión Streaming (Recomendada)
+
+La versión streaming (`evaluador_streaming.py`) ofrece mejoras significativas sobre la versión estándar:
+
+### 🚀 Características de la Versión Streaming
+
+- **Streaming activado** para Anthropic Claude, Ollama y OpenAI
+- **Timeouts extendidos**: 15 minutos (vs 5 minutos en la versión estándar)
+- **Reintentos aumentados**: Hasta 5 reintentos (vs 3 en la versión estándar)
+- **Mejor feedback** durante la evaluación con actualizaciones en tiempo real
+- **Menor uso de memoria** gracias al procesamiento por fragmentos
+- **Fallback automático** si el streaming falla
+
+### 🛠️ Uso de la Versión Streaming
+
+#### Con Anthropic Claude (Streaming activado)
+```bash
+python evaluador_streaming.py documento.md ./resultados
+# O con API key explícita
+python evaluador_streaming.py documento.md ./resultados --api-key sk-ant-...
+```
+
+#### Con Ollama (Streaming activado)
+```bash
+python evaluador_streaming.py documento.md ./resultados --ollama llama2
+python evaluador_streaming.py documento.md ./resultados --ollama mistral:latest
+```
+
+#### Con OpenAI (Streaming activado)
+```bash
+python evaluador_streaming.py documento.md ./resultados --openai gpt-4-turbo-preview
+python evaluador_streaming.py documento.md ./resultados --openai gpt-3.5-turbo
+```
+
+#### Procesamiento por Lotes (Directorio)
+```bash
+python evaluador_streaming.py --input-dir ./documentos ./resultados
+```
+
+#### Opciones Avanzadas
+```bash
+# Modo debug con información detallada
+python evaluador_streaming.py documento.md ./resultados --debug
+
+# Con prompts personalizados
+python evaluador_streaming.py documento.md ./resultados --prompts ./mis_prompts
+```
+
+### 📊 Comparación de Versiones
+
+| Característica | Versión Estándar | Versión Streaming |
+|----------------|------------------|-------------------|
+| Streaming Ollama | ❌ Desactivado | ✅ **Activado** |
+| Streaming Anthropic | ❌ No disponible | ✅ **Activado** |
+| Streaming OpenAI | ❌ No disponible | ✅ **Activado** |
+| Timeout máximo | 5 minutos | **15 minutos** |
+| Reintentos | 3 | **5** |
+| Uso de memoria | Alto | **Optimizado** |
+| Feedback | Básico | **En tiempo real** |
+
+### 💡 Recomendación
+
+**Use la versión streaming para:**
+- Documentos largos que requieren más tiempo de procesamiento
+- Mejor experiencia de usuario con feedback en tiempo real
+- Procesamiento más eficiente de memoria
+- Mayor estabilidad con reintentos automáticos
 
 ## 🚨 Solución de Problemas
 
