@@ -116,7 +116,111 @@ El sistema ejecuta 4 fases secuenciales:
 - Cálculo de nota ponderada (0-10)
 - Documento final con rúbrica completa
 
-![Esquema de la evaluación](./docs/Evaluator.png)
+'''
+```mermaid
+graph TD
+    %% Estilos
+    classDef file fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef prompt fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,stroke-dasharray: 5 5;
+    classDef process fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef final fill:#fce4ec,stroke:#880e4f,stroke-width:4px;
+
+    %% Entrada
+    InputDoc(📄 Documento de Entrada<br/>.md):::file
+
+    %% FASE 1
+    subgraph Fase1 [Fase 1: Extracción de Información]
+        direction TB
+        P1_1[Prompt 1_1<br/>Extracción Objetivos]:::prompt
+        P1_2[Prompt 1_2<br/>Extracción Requisitos]:::prompt
+        P1_3[Prompt 1_3<br/>Extracción Casos Uso]:::prompt
+
+        LLM1(🤖 LLM: Extracción):::process
+
+        InputDoc --> P1_1 & P1_2 & P1_3
+        P1_1 --> LLM1
+        P1_2 --> LLM1
+        P1_3 --> LLM1
+
+        Out1_1(📄 1_1 Objetivos):::file
+        Out1_2(📄 1_2 Requisitos):::file
+        Out1_3(📄 1_3 Casos Uso):::file
+
+        LLM1 --> Out1_1 & Out1_2 & Out1_3
+    end
+
+    %% FASE 2
+    subgraph Fase2 [Fase 2: Análisis de Coherencia]
+        direction TB
+        P2_1[Prompt 2_1<br/>Trazabilidad]:::prompt
+        P2_2[Prompt 2_2<br/>Completitud]:::prompt
+
+        LLM2(🤖 LLM: Análisis):::process
+
+        Out1_1 & Out1_2 --> P2_1
+        Out1_2 --> P2_2
+        
+        P2_1 --> LLM2
+        P2_2 --> LLM2
+
+        Out2_1(📄 2_1 Trazabilidad):::file
+        Out2_2(📄 2_2 Completitud):::file
+
+        LLM2 --> Out2_1 & Out2_2
+    end
+
+    %% FASE 3
+    subgraph Fase3 [Fase 3: Evaluación por Criterios]
+        direction TB
+        P3_1[Prompt 3_1<br/>Eval Objetivos]:::prompt
+        P3_2[Prompt 3_2<br/>Eval Req Info]:::prompt
+        P3_3[Prompt 3_3<br/>Eval Req NF]:::prompt
+        P3_4[Prompt 3_4<br/>Eval Casos Uso]:::prompt
+        P3_5[Prompt 3_5<br/>Eval Matrices]:::prompt
+
+        LLM3(🤖 LLM: Evaluación):::process
+
+        Out1_1 & Out2_1 --> P3_1
+        Out1_2 & Out2_2 --> P3_2
+        Out1_2 --> P3_3
+        Out1_3 & Out1_1 & Out1_2 --> P3_4
+        Out2_1 --> P3_5
+
+        P3_1 & P3_2 & P3_3 & P3_4 & P3_5 --> LLM3
+
+        Out3_1(📄 3_1 Eval Objetivos):::file
+        Out3_2(📄 3_2 Eval Req Info):::file
+        Out3_3(📄 3_3 Eval Req NF):::file
+        Out3_4(📄 3_4 Eval Casos Uso):::file
+        Out3_5(📄 3_5 Eval Matrices):::file
+
+        LLM3 --> Out3_1 & Out3_2 & Out3_3 & Out3_4 & Out3_5
+    end
+
+    %% FASE 4
+    subgraph Fase4 [Fase 4: Síntesis y Calificación]
+        direction TB
+        Calc(🧮 Cálculo de Nota<br/>Extraer Puntuaciones):::process
+        P4_1[Prompt 4_1<br/>Generación Informe]:::prompt
+        LLM4(🤖 LLM: Redacción Final):::process
+
+        Out3_1 & Out3_2 & Out3_3 & Out3_4 & Out3_5 --> Calc
+        Out3_1 & Out3_2 & Out3_3 & Out3_4 & Out3_5 --> P4_1
+        Calc --> P4_1
+        
+        P4_1 --> LLM4
+    end
+
+    %% Salida
+    LLM4 --> FinalReport(📄 Evaluación-Final.md<br/>Informe Completo):::final
+
+    %% Conexiones entre fases (visual flow)
+    Fase1 --> Fase2
+    Fase2 --> Fase3
+    Fase3 --> Fase4
+```
+
+
 
 ## 📁 Estructura de Archivos Generados
 
