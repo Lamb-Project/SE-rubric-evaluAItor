@@ -452,20 +452,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ## © Copyright
 
 **Autores:**
-- Marc Alier
-- Francisco Garcia-Peñalvo
-- Alicia Garcia-Holgado
-- Andrea Vázquez Ingelmo
-- Maria José Casañ
-- Juanan Pereira
+- Marc Alier (UPC)
+- Francisco Garcia-Peñalvo (USAL)
+- Alicia Garcia-Holgado (USAL)
+- Andrea Vázquez Ingelmo (USAL)
+- Maria José Casañ (UPC)
+- Juanan Pereira (UPV/EHU)
 
 **Universidades:**
 - Universitat Politècnica de Catalunya (UPC)
 - Universidad de Salamanca (USAL)
-- Universitat Politècnica de València (UPV)
+- Universidad del Pais Vasco (UPV / EHUS)
 
 ---
 
-**Versión**: Prototipo 2.0
+**Versión**: 0.2 
 **Fecha**: Noviembre 2025
-**Autor**: Sistema de Evaluación Automatizada con LLM
+
