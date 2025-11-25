@@ -116,7 +116,7 @@ El sistema ejecuta 4 fases secuenciales:
 - Cálculo de nota ponderada (0-10)
 - Documento final con rúbrica completa
 
-!(docs/Evaluaitor.png)[]
+![Esquema de la evaluación](./docs/Evaluator.png)
 
 ## 📁 Estructura de Archivos Generados
 
