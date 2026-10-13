@@ -38,10 +38,11 @@ class EvaluadorProyecto:
         "4_1_generacion_informe"
     ]
     
-    def __init__(self, config: EvaluacionConfig):
+    def __init__(self, config: EvaluacionConfig, skip_confirm: bool = False):
         # Validar configuración
         if not ConfigManager.validar_configuracion(config):
             raise ValueError("Configuración inválida")
+        self.skip_confirm = skip_confirm
         
         self.config = config
         self.logger = ConfigManager.setup_logging(config.directorio_salida)
@@ -343,8 +344,11 @@ class EvaluadorProyecto:
             return False
         
         print("\n✅ Configuración válida")
-        
-        # Preguntar confirmación
+
+        # Preguntar confirmación (saltar si --yes)
+        if self.skip_confirm:
+            print("\n(Confirmación automática: --yes)")
+            return True
         respuesta = input("\n¿Desea continuar con la evaluación? (s/n): ").strip().lower()
         return respuesta in ['s', 'si', 'sí', 'yes', 'y']
     
@@ -397,7 +401,8 @@ Ejemplos de uso:
     parser.add_argument('--ollama', metavar='MODEL', help='Usar Ollama con el modelo especificado (ej: llama2, mistral)')
     parser.add_argument('--openai', metavar='MODEL', help='Usar OpenAI con el modelo especificado (ej: gpt-4-turbo-preview)')
     parser.add_argument('--debug', action='store_true', help='Activar modo debug con más información')
-    
+    parser.add_argument('--yes', '-y', action='store_true', help='Saltar confirmación interactiva (para ejecución no-interactiva)')
+
     args = parser.parse_args()
     
     # Configurar nivel de log
@@ -450,7 +455,7 @@ Ejemplos de uso:
         print("="*60 + "\n")
         
         # Ejecutar evaluación
-        evaluador = EvaluadorProyecto(config)
+        evaluador = EvaluadorProyecto(config, skip_confirm=args.yes)
         evaluador.ejecutar_evaluacion()
         
         print("\n✅ Evaluación completada exitosamente")
